@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EDULINGUA · Inscripción curso de inglés</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#147A16;
+    --green-deep:#0C4D0E;
+    --green-soft:#E6F2E6;
+    --ink:#14211A;
+    --muted:#55645A;
+    --line:#CFDACF;
+    --bg:#F7FAF7;
+    --white:#fff;
+    --error:#B3261E;
+    --radius:14px;
+    --display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+    --body:'Figtree','Segoe UI',system-ui,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.55;font-size:17px}
+  .page{min-height:100vh;display:grid;grid-template-columns:minmax(300px,5fr) 7fr}
+
+  /* ---- Brand panel ---- */
+  .brand{background:var(--green);color:#fff;padding:48px 44px;display:flex;flex-direction:column;gap:36px;position:relative;overflow:hidden}
+  .brand::after{content:"";position:absolute;right:-140px;bottom:-140px;width:380px;height:380px;border-radius:50%;border:44px solid rgba(255,255,255,.07);pointer-events:none}
+  .logo{display:flex;align-items:center;gap:16px}
+  .logo-mark{width:84px;height:84px;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden;flex:none;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+  .logo-mark img{width:100%;height:100%;object-fit:cover;display:block}
+  .logo-word{font-family:var(--display);font-weight:800;font-size:28px;letter-spacing:.02em;line-height:1}
+  .logo-word small{display:block;font-family:var(--body);font-weight:500;font-size:13px;letter-spacing:.04em;opacity:.85;margin-top:6px}
+  .brand h1{font-family:var(--display);font-weight:800;font-size:clamp(32px,3.6vw,48px);line-height:1.05;margin:0;letter-spacing:-.01em}
+  .brand p.lead{margin:14px 0 0;font-size:18px;opacity:.92;max-width:34ch}
+  .path{list-style:none;padding:0;margin:auto 0 0;display:grid;gap:18px;position:relative;z-index:1}
+  .path li{display:grid;grid-template-columns:40px 1fr;gap:14px;align-items:start}
+  .path .n{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--green);font-family:var(--display);font-weight:800;display:grid;place-items:center}
+  .path strong{display:block;font-weight:600}
+  .path span{opacity:.85;font-size:15px}
+  .path a{color:#fff;text-decoration-thickness:2px;text-underline-offset:3px;font-weight:600}
+
+  /* ---- Form side ---- */
+  .main{padding:56px clamp(24px,6vw,84px);display:flex;align-items:flex-start;justify-content:center}
+  .card{width:100%;max-width:560px}
+  .card h2{font-family:var(--display);font-weight:700;font-size:30px;margin:0 0 6px;color:var(--green-deep)}
+  .card p.sub{margin:0 0 28px;color:var(--muted)}
+  form{display:grid;gap:20px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+  .hint{font-weight:400;color:var(--muted);font-size:14px}
+  input[type=text],input[type=tel],input[type=email]{
+    width:100%;font:inherit;padding:13px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--white);color:var(--ink);
+    transition:border-color .15s, box-shadow .15s}
+  input:hover{border-color:#9FB59F}
+  input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 4px rgba(20,122,22,.18)}
+  input[aria-invalid=true]{border-color:var(--error)}
+  .err{color:var(--error);font-size:14px;min-height:1.2em;margin-top:4px}
+  .consent{display:grid;grid-template-columns:22px 1fr;gap:12px;align-items:start;font-size:14.5px;color:var(--muted);background:var(--green-soft);padding:14px;border-radius:10px}
+  .consent input{width:20px;height:20px;accent-color:var(--green);margin-top:2px}
+  .btn{font:inherit;font-weight:600;border:0;border-radius:999px;padding:15px 28px;cursor:pointer;background:var(--green);color:#fff;transition:background .15s, transform .1s;text-decoration:none;display:inline-block;text-align:center}
+  .btn:hover{background:var(--green-deep)}
+  .btn:active{transform:translateY(1px)}
+  .btn:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px var(--green)}
+  .btn.ghost{background:transparent;color:var(--green-deep);box-shadow:inset 0 0 0 2px var(--green)}
+  .btn.ghost:hover{background:var(--green-soft)}
+  .btn.wa{background:#1E8F4A}
+  .btn.wa:hover{background:#166B37}
+
+  /* ---- Success ---- */
+  #done{display:none}
+  #done.show{display:block;animation:pop .35s ease-out}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .check{width:64px;height:64px;border-radius:50%;background:var(--green);display:grid;place-items:center;margin-bottom:18px}
+  .summary{background:var(--white);border:1.5px solid var(--line);border-radius:var(--radius);padding:6px 18px;margin:22px 0}
+  .summary div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--line)}
+  .summary div:last-child{border-bottom:0}
+  .summary dt{color:var(--muted)}
+  .summary dd{margin:0;font-weight:600;text-align:right}
+  .actions{display:grid;gap:12px}
+  .foot{margin-top:36px;font-size:14px;color:var(--muted)}
+
+  @media (max-width:860px){
+    .page{grid-template-columns:1fr}
+    .brand{padding:32px 24px;gap:24px}
+    .path{margin-top:8px}
+    .main{padding:32px 20px 56px}
+    .row{grid-template-columns:1fr}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ===== BRAND PANEL ===== -->
+  <aside class="brand">
+    <div class="logo">
+      <div class="logo-mark" id="logoMark">
+        <!-- Replace by putting your real logo next to this file as logo.png. If it is missing, the built-in mark below is shown. -->
+        <img src="logo.png" alt="Logo de EDULINGUA" id="logoImg" onerror="useFallbackLogo()">
+      </div>
+      <div class="logo-word">EDULINGUA<small>Inglés y francés · Medellín</small></div>
+    </div>
+
+    <div>
+      <h1>Bienvenido a tu curso de inglés</h1>
+      <p class="lead">Regístrate en dos minutos y descubre tu nivel para empezar en el grupo correcto.</p>
+    </div>
+
+    <ol class="path">
+      <li><span class="n">1</span><div><strong>Completa tus datos</strong><span>Es el formulario de al lado.</span></div></li>
+      <li><span class="n">2</span><div><strong>Haz la prueba de nivel</strong><span><a id="sideTest" href="#" target="_blank" rel="noopener">Abrir la prueba de inglés</a></span></div></li>
+      <li><span class="n">3</span><div><strong>Te contactamos</strong><span>Te confirmamos tu nivel, horario y primera clase.</span></div></li>
+    </ol>
+  </aside>
+
+  <!-- ===== FORM ===== -->
+  <main class="main">
+    <div class="card">
+
+      <section id="formView">
+        <h2>Tus datos de inscripción</h2>
+        <p class="sub">Todos los campos son obligatorios.</p>
+
+        <form id="enroll" novalidate>
+          <div class="row">
+            <div>
+              <label for="nombres">Nombres</label>
+              <input type="text" id="nombres" name="nombres" autocomplete="given-name" placeholder="Ej: María Camila" required>
+              <div class="err" id="e-nombres"></div>
+            </div>
+            <div>
+              <label for="apellidos">Apellidos</label>
+              <input type="text" id="apellidos" name="apellidos" autocomplete="family-name" placeholder="Ej: Gómez Restrepo" required>
+              <div class="err" id="e-apellidos"></div>
+            </div>
+          </div>
+
+          <div>
+            <label for="cedula">Cédula de ciudadanía <span class="hint">(solo números)</span></label>
+            <input type="text" id="cedula" name="cedula" inputmode="numeric" autocomplete="off" placeholder="Ej: 1020304050" maxlength="13" required>
+            <div class="err" id="e-cedula"></div>
+          </div>
+
+          <div>
+            <label for="celular">Número de contacto <span class="hint">(celular o WhatsApp)</span></label>
+            <input type="tel" id="celular" name="celular" inputmode="tel" autocomplete="tel" placeholder="Ej: 300 123 4567" required>
+            <div class="err" id="e-celular"></div>
+          </div>
+
+          <label class="consent" for="habeas">
+            <input type="checkbox" id="habeas" required>
+            <span>Autorizo a EDULINGUA a tratar mis datos personales para gestionar mi inscripción y contactarme, conforme a la Ley 1581 de 2012.</span>
+          </label>
+          <div class="err" id="e-habeas" style="margin-top:-12px"></div>
+
+          <button class="btn" type="submit">Enviar inscripción</button>
+        </form>
+      </section>
+
+      <!-- ===== SUCCESS ===== -->
+      <section id="done" aria-live="polite">
+        <div class="check" aria-hidden="true">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+        </div>
+        <h2 id="doneTitle">¡Inscripción recibida!</h2>
+        <p class="sub">Siguiente paso: haz la prueba de nivel para saber en qué grupo empezar.</p>
+
+        <dl class="summary" id="summary"></dl>
+
+        <div class="actions">
+          <a class="btn" id="testBtn" href="#" target="_blank" rel="noopener">Hacer la prueba de nivel</a>
+          <a class="btn wa" id="waBtn" href="#" target="_blank" rel="noopener">Enviar mis datos por WhatsApp</a>
+          <button class="btn ghost" type="button" id="newBtn">Registrar a otro estudiante</button>
+        </div>
+      </section>
+
+      <p class="foot">EDULINGUA · Medellín, Colombia</p>
+    </div>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   CONFIGURA AQUÍ
+   ========================================================= */
+const TEST_URL = "https://www.efset.org/";   // ← pon aquí el enlace de TU prueba de nivel
+const WHATSAPP_NUMBER = "573000000000";       // ← tu WhatsApp con 57 al inicio, sin + ni espacios
+/* ========================================================= */
+
+const $ = id => document.getElementById(id);
+
+// Test links
+$("sideTest").href = TEST_URL;
+$("testBtn").href = TEST_URL;
+
+// Logo fallback: circular mark drawn in brand green
+function useFallbackLogo(){
+  $("logoMark").innerHTML =
+    '<svg viewBox="0 0 100 100" width="100%" height="100%" role="img" aria-label="Logo de EDULINGUA">' +
+    '<circle cx="50" cy="50" r="50" fill="#147A16"/>' +
+    '<circle cx="50" cy="50" r="41" fill="none" stroke="#fff" stroke-width="2.5"/>' +
+    '<text x="50" y="62" text-anchor="middle" font-family="Bricolage Grotesque, Trebuchet MS, sans-serif" font-weight="800" font-size="40" fill="#fff">EL</text>' +
+    '</svg>';
+}
+
+// Helpers
+const onlyDigits = s => s.replace(/\D/g, "");
+const titleCase = s => s.trim().replace(/\s+/g," ").toLowerCase().replace(/(^|\s)\p{L}/gu, m => m.toUpperCase());
+const fmtCedula = d => d.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+const fmtPhone = d => d.replace(/(\d{3})(\d{3})(\d{4})/, "$1 $2 $3");
+
+function setError(field, msg){
+  const el = $(field), er = $("e-" + field);
+  if (el.type !== "checkbox") el.setAttribute("aria-invalid", msg ? "true" : "false");
+  er.textContent = msg || "";
+  return !msg;
+}
+
+// Cédula: live formatting with dots
+$("cedula").addEventListener("input", e => {
+  const d = onlyDigits(e.target.value).slice(0,10);
+  e.target.value = fmtCedula(d);
+});
+
+function validate(){
+  let ok = true, firstBad = null;
+  const check = (f, msg) => { const good = setError(f, msg); if(!good && !firstBad) firstBad = $(f); ok = ok && good; };
+
+  const nombres = $("nombres").value.trim();
+  const apellidos = $("apellidos").value.trim();
+  const cedula = onlyDigits($("cedula").value);
+  let cel = onlyDigits($("celular").value);
+  if (cel.length === 12 && cel.startsWith("57")) cel = cel.slice(2);
+
+  check("nombres", nombres.length < 2 ? "Escribe tus nombres." : "");
+  check("apellidos", apellidos.length < 2 ? "Escribe tus apellidos." : "");
+  check("cedula", (cedula.length < 6 || cedula.length > 10) ? "La cédula debe tener entre 6 y 10 números." : "");
+  check("celular", !/^3\d{9}$/.test(cel) ? "Escribe un celular colombiano de 10 dígitos, que empiece por 3." : "");
+  check("habeas", !$("habeas").checked ? "Debes aceptar el tratamiento de datos para continuar." : "");
+
+  if (firstBad) firstBad.focus();
+  return ok ? { nombres:titleCase(nombres), apellidos:titleCase(apellidos), cedula, celular:cel } : null;
+}
+
+// Submit
+$("enroll").addEventListener("submit", e => {
+  e.preventDefault();
+  const data = validate();
+  if (!data) return;
+
+  data.fecha = new Date().toISOString();
+
+  // Keep a local copy in this browser (so the school can export later)
+  try {
+    const all = JSON.parse(localStorage.getItem("edulingua_inscripciones") || "[]");
+    all.push(data);
+    localStorage.setItem("edulingua_inscripciones", JSON.stringify(all));
+  } catch(_){}
+
+  // Summary
+  $("doneTitle").textContent = "¡Gracias, " + data.nombres.split(" ")[0] + "!";
+  $("summary").innerHTML =
+    row("Nombre", data.nombres + " " + data.apellidos) +
+    row("Cédula", fmtCedula(data.cedula)) +
+    row("Contacto", fmtPhone(data.celular));
+
+  // WhatsApp message
+  const msg = "Hola EDULINGUA, quiero inscribirme al curso de inglés.\n" +
+    "Nombre: " + data.nombres + " " + data.apellidos + "\n" +
+    "Cédula: " + fmtCedula(data.cedula) + "\n" +
+    "Contacto: " + fmtPhone(data.celular);
+  $("waBtn").href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(msg);
+
+  $("formView").style.display = "none";
+  $("done").classList.add("show");
+  window.scrollTo({top:0});
+});
+
+function row(k, v){
+  const d = document.createElement("div");
+  const safe = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  return "<div><dt>" + safe(k) + "</dt><dd>" + safe(v) + "</dd></div>";
+}
+
+// New student
+$("newBtn").addEventListener("click", () => {
+  $("enroll").reset();
+  ["nombres","apellidos","cedula","celular","habeas"].forEach(f => setError(f,""));
+  $("done").classList.remove("show");
+  $("formView").style.display = "block";
+  $("nombres").focus();
+});
+
+// Clear errors as the user fixes them
+["nombres","apellidos","cedula","celular"].forEach(f => $(f).addEventListener("input", () => setError(f,"")));
+$("habeas").addEventListener("change", () => setError("habeas",""));
+</script>
+</body>
+</html>
